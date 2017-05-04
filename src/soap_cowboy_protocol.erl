@@ -79,10 +79,10 @@ check_conformance(Soap_req, Cowboy_req, Cowboy_state, Version_module) ->
 handle_xml(Soap_req, Cowboy_state, Version_module) ->
   Cowboy_req = soap_req:server_req(Soap_req),
   {ok, Message, Cowboy_req2} = if
-    Version_module =:= soap_cowboy_2_protocol ->
-      cowboy_req:read_body(Cowboy_req);
+    Version_module =:= soap_cowboy_1_protocol ->
+      cowboy_req:body(Cowboy_req);
     true ->
-      cowboy_req:body(Cowboy_req)
+      cowboy_req:read_body(Cowboy_req)
   end,
   Soap_req2 = soap_req:set_server_req(Soap_req, Cowboy_req2),
   Soap_req3 = soap_req:set_http_body(Soap_req2, Message),
